@@ -7,6 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="alibaba-nacos-discovery-client-common" />
+        <module name="alibaba-nacos-discovery-client-feign" />
+        <module name="alibaba-nacos-discovery-client-resttemplate" />
+        <module name="alibaba-nacos-discovery-client-webclient" />
         <module name="alibaba-nacos-discovery-server" />
       </profile>
     </annotationProcessing>
@@ -14,6 +17,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="alibaba-nacos-discovery-client-common" options="-parameters" />
+      <module name="alibaba-nacos-discovery-client-feign" options="-parameters" />
+      <module name="alibaba-nacos-discovery-client-resttemplate" options="-parameters" />
+      <module name="alibaba-nacos-discovery-client-webclient" options="-parameters" />
       <module name="alibaba-nacos-discovery-server" options="-parameters" />
     </option>
   </component>
