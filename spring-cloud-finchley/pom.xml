@@ -13,6 +13,7 @@
         <module>alibaba-nacos-discovery-client-resttemplate</module>
         <module>alibaba-nacos-discovery-client-feign</module>
         <module>alibaba-nacos-discovery-client-webclient</module>
+        <module>alibaba-nacos-config-client</module>
     </modules>
     <packaging>pom</packaging>
 
