@@ -17,6 +17,8 @@
         <module>alibaba-sentinel-rate-limiting</module>
         <module>alibaba-sentinel-datasource-nacos</module>
         <module>alibaba-sentinel-datasource-apollo</module>
+        <module>alibaba-sentinel-dashboard-apollo</module>
+        <module>alibaba-sentinel-dashboard-nacos</module>
     </modules>
     <packaging>pom</packaging>
 
