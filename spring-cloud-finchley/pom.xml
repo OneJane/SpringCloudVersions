@@ -20,6 +20,7 @@
         <module>alibaba-sentinel-dashboard-apollo</module>
         <module>alibaba-sentinel-dashboard-nacos</module>
         <module>alibaba-sentinel-annotation</module>
+        <module>stream-consumer-self</module>
     </modules>
     <packaging>pom</packaging>
 
