@@ -19,6 +19,7 @@
         <module>alibaba-sentinel-datasource-apollo</module>
         <module>alibaba-sentinel-dashboard-apollo</module>
         <module>alibaba-sentinel-dashboard-nacos</module>
+        <module>alibaba-sentinel-annotation</module>
     </modules>
     <packaging>pom</packaging>
 
