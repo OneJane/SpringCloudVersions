@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/OneJane/SpringCloudVersions/
+          search-paths: spring-cloud-dalston/config-repo-demo
+          username: OneJane
+          password: Wangjian123456
+
+server:
+  port: 1201
