@@ -8,7 +8,9 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,6 @@ public class TestApplication {
         SpringApplication.run(TestApplication.class, args);
     }
 
-    @Slf4j
     @RestController
     static class TestController {
 
@@ -40,8 +41,7 @@ public class TestApplication {
          */
         @GetMapping("/sendMessage")
         public String messageWithMQ(@RequestParam String message) {
-            log.info("Send: " + message);
-            testTopic.output().send(MessageBuilder.withPayload(message).setHeader("x-delay", 5000).build());
+            testTopic.output().send(MessageBuilder.withPayload(message).build());
             return "ok";
         }
 
@@ -56,11 +56,21 @@ public class TestApplication {
 
         @StreamListener(TestTopic.INPUT)
         public void receive(String payload) {
-            log.info("Received: " + payload);
+            log.info("Received payload : " + payload);
+            throw new RuntimeException("Message consumer failed!");
+        }
+
+        /**
+         * 消息消费失败的降级处理逻辑
+         *
+         * @param message
+         */
+        @ServiceActivator(inputChannel = "test-topic.stream-exception-handler.errors")
+        public void error(Message<?> message) {
+            log.info("Message consumer failed, call fallback!");
         }
 
     }
-
 
     interface TestTopic {
 

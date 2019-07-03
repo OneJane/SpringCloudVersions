@@ -25,7 +25,6 @@ public class TestApplication {
         SpringApplication.run(TestApplication.class, args);
     }
 
-    @Slf4j
     @RestController
     static class TestController {
 
@@ -40,8 +39,7 @@ public class TestApplication {
          */
         @GetMapping("/sendMessage")
         public String messageWithMQ(@RequestParam String message) {
-            log.info("Send: " + message);
-            testTopic.output().send(MessageBuilder.withPayload(message).setHeader("x-delay", 5000).build());
+            testTopic.output().send(MessageBuilder.withPayload(message).build());
             return "ok";
         }
 
@@ -56,11 +54,11 @@ public class TestApplication {
 
         @StreamListener(TestTopic.INPUT)
         public void receive(String payload) {
-            log.info("Received: " + payload);
+            log.info("Received payload : " + payload);
+            throw new RuntimeException("Message consumer failed!");
         }
 
     }
-
 
     interface TestTopic {
 

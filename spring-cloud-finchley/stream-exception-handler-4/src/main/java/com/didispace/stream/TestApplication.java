@@ -1,6 +1,7 @@
 package com.didispace.stream;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,7 +26,6 @@ public class TestApplication {
         SpringApplication.run(TestApplication.class, args);
     }
 
-    @Slf4j
     @RestController
     static class TestController {
 
@@ -40,8 +40,7 @@ public class TestApplication {
          */
         @GetMapping("/sendMessage")
         public String messageWithMQ(@RequestParam String message) {
-            log.info("Send: " + message);
-            testTopic.output().send(MessageBuilder.withPayload(message).setHeader("x-delay", 5000).build());
+            testTopic.output().send(MessageBuilder.withPayload(message).build());
             return "ok";
         }
 
@@ -54,13 +53,25 @@ public class TestApplication {
     @Component
     static class TestListener {
 
+        private int count = 1;
+
         @StreamListener(TestTopic.INPUT)
         public void receive(String payload) {
-            log.info("Received: " + payload);
+            log.info("Received payload : " + payload + ", " + count);
+            throw new RuntimeException("Message consumer failed!");
+
+            // 进入DLQ的逻辑
+//            if (count == 3) {
+//                count = 1;
+//                throw new AmqpRejectAndDontRequeueException("tried 3 times failed, send to dlq!");
+//            } else {
+//                count ++;
+//                throw new RuntimeException("Message consumer failed!");
+//            }
+
         }
 
     }
-
 
     interface TestTopic {
 
@@ -74,5 +85,6 @@ public class TestApplication {
         SubscribableChannel input();
 
     }
+
 
 }
